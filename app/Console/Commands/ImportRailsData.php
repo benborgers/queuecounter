@@ -14,8 +14,9 @@ class ImportRailsData extends Command
     {
         $csvPath = resource_path('rails-export.csv');
 
-        if (!File::exists($csvPath)) {
+        if (! File::exists($csvPath)) {
             $this->error("CSV file not found: {$csvPath}");
+
             return 1;
         }
 
@@ -31,6 +32,7 @@ class ImportRailsData extends Command
         if ($headers !== ['id', 'count', 'created_at', 'updated_at']) {
             $this->error('CSV headers do not match the expected format.');
             fclose($file);
+
             return 1;
         }
 
