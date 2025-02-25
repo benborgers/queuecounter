@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-const MINUTES_PER_PERIOD = 15;
+const MINUTES_PER_PERIOD = 5;
 
 class Home extends Component
 {
