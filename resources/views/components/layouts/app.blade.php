@@ -13,7 +13,7 @@
 
         @vite('resources/css/app.css')
     </head>
-    <body class="antialiased bg-zinc-50">
+    <body class="antialiased bg-zinc-50 dark:bg-zinc-950">
         {{ $slot }}
 
         @fluxScripts

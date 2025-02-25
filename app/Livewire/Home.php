@@ -8,7 +8,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
-const MINUTES_PER_PERIOD = 5;
+const MINUTES_PER_PERIOD = 15;
 
 class Home extends Component
 {
@@ -16,13 +16,17 @@ class Home extends Component
 
     public function mount()
     {
-        $this->date = Carbon::now();
+        $this->date = Carbon::now()->subDays(1);
     }
 
     #[Computed]
     public function data()
     {
-        $start = $this->date->copy()->timezone('America/New_York')->startOfDay();
+        if (! isset($this->date)) {
+            return [];
+        }
+
+        $start = $this->date->copy()->timezone('America/New_York')->startOfDay()->setHour(10);
         $end = $this->date->copy()->timezone('America/New_York')->endOfDay();
 
         $periods = [];
