@@ -122,6 +122,10 @@ class Home extends Component
     #[Computed]
     public function data()
     {
+        if (! isset($this->date)) {
+            return [];
+        }
+
         $data1 = $this->dataForDate($this->date);
         $data2 = $this->dataForDate($this->comparisonDate);
 
@@ -153,6 +157,13 @@ class Home extends Component
     public function lastCheckedQueue()
     {
         return Cache::get('last-checked-queue');
+    }
+
+    public function updatedDate()
+    {
+        if (! isset($this->date)) {
+            $this->date = Carbon::now()->startOfDay();
+        }
     }
 
     public function updatedHasComparison()
