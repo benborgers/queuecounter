@@ -14,6 +14,10 @@ class Home extends Component
 {
     public Carbon $date;
 
+    public bool $hasComparison = false;
+
+    public ?Carbon $comparisonDate = null;
+
     public function mount()
     {
         $this->date = Carbon::now()->startOfDay();
@@ -47,14 +51,14 @@ class Home extends Component
     }
 
     #[Computed]
-    public function data()
+    public function dataForDate($date)
     {
-        if (! isset($this->date)) {
+        if (! isset($date)) {
             return [];
         }
 
-        $start = $this->date->copy()->shiftTimezone('America/New_York')->startOfDay()->setHour(10);
-        $end = $this->date->copy()->shiftTimezone('America/New_York')->endOfDay();
+        $start = $date->copy()->shiftTimezone('America/New_York')->startOfDay()->setHour(10);
+        $end = $date->copy()->shiftTimezone('America/New_York')->endOfDay();
 
         $periods = [];
 
@@ -111,8 +115,44 @@ class Home extends Component
             }
         }
 
-        // dd($points);
-
         return $points;
+    }
+
+    #[Computed]
+    public function data()
+    {
+        $data1 = $this->dataForDate($this->date);
+        $data2 = $this->dataForDate($this->comparisonDate);
+
+        if (! $this->hasComparison) {
+            return $data1;
+        }
+
+        $mergedData = [];
+        foreach ($data1 as $index => $point) {
+            $mergedPoint = $point;
+
+            if (isset($data2[$index]) && isset($data2[$index]['count'])) {
+                $mergedPoint['comparisonCount'] = $data2[$index]['count'];
+            }
+
+            $mergedData[] = $mergedPoint;
+        }
+
+        return $mergedData;
+    }
+
+    public function updatedHasComparison()
+    {
+        if (! $this->hasComparison) {
+            $this->comparisonDate = null;
+        }
+    }
+
+    public function updatedComparisonDate()
+    {
+        if (! $this->comparisonDate) {
+            $this->hasComparison = false;
+        }
     }
 }

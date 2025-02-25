@@ -1,29 +1,57 @@
 <div class="p-4">
-    <div class="flex items-start gap-6">
+    <div class="flex items-start gap-4">
         <div>
-            <flux:calendar
-                wire:model.live="date"
-                size="sm"
-                min="2025-02-01"
-                max="today"
-                with-today
-            />
+            <flux:card class="!p-2 !pb-4">
+                <flux:calendar
+                    wire:model.live="date"
+                    size="sm"
+                    min="2025-02-01"
+                    max="today"
+                    with-today
+                />
+                <p class="ml-4 mt-1 text-xs font-medium text-zinc-800 italic *:px-2 *:py-0.5 *:rounded-full">
+                    <span class="bg-sky-100">= Design Due</span>
+                    <span class="ml-1 bg-orange-100">= Homework Due</span>
+                </p>
+            </flux:card>
 
-            <p class="ml-4 mt-1 text-xs font-medium text-zinc-800 italic *:px-2 *:py-0.5 *:rounded-full">
-                <span class="bg-sky-100">= Design Due</span>
-                <span class="ml-1 bg-orange-100">= Homework Due</span>
-            </p>
+            <div class="mt-6">
+                <flux:field variant="inline">
+                    <flux:switch wire:model.live="hasComparison"/>
+                    <flux:label>Compare to another date</flux:label>
+                </flux:field>
+            </div>
+
+            @if ($this->hasComparison)
+                <flux:card class="mt-2 !p-2">
+                    <flux:calendar
+                        wire:model.live="comparisonDate"
+                        size="sm"
+                        min="2025-02-01"
+                        max="today"
+                        with-today
+                    />
+                </flux:card>
+            @endif
         </div>
 
         <flux:card class="aspect-[2/1] w-full transition-opacity duration-100" wire:loading.class="opacity-50">
-            <flux:chart :value="$this->data" wire:key="{{ $date }}" class="w-full h-full">
+            @json($hasComparison)
+            <flux:chart :value="$this->data" wire:key="{{ $date }} {{ $comparisonDate }}" class="w-full h-full">
                 <flux:chart.svg>
+                    @if ($hasComparison)
+                        <flux:chart.line field="comparisonCount" class="text-zinc-300" stroke-width="2" stroke-dasharray="4 4" curve="none" />
+                        <flux:chart.area field="comparisonCount" class="text-zinc-300/10" stroke-width="2" curve="none" />
+                    @endif
+
                     <flux:chart.line field="count" class="text-accent" stroke-width="3" curve="none" />
                     <flux:chart.area field="count" class="text-accent/10" stroke-width="3" curve="none" />
+
                     <flux:chart.axis axis="x" field="label" tick-count="10">
                         <flux:chart.axis.tick />
                         <flux:chart.axis.line />
                     </flux:chart.axis>
+
                     <flux:chart.axis axis="y" field="count" :tick-values="[0, 1, 2, 3, 4, 5, 6, 7, 8]">
                         <flux:chart.axis.tick />
                         <flux:chart.axis.line />
