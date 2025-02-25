@@ -16,7 +16,7 @@ class Home extends Component
 
     public function mount()
     {
-        $this->date = Carbon::now();
+        $this->date = Carbon::now()->startOfDay();
     }
 
     #[Computed]
@@ -26,8 +26,8 @@ class Home extends Component
             return [];
         }
 
-        $start = $this->date->copy()->timezone('America/New_York')->startOfDay()->setHour(10);
-        $end = $this->date->copy()->timezone('America/New_York')->endOfDay();
+        $start = $this->date->copy()->shiftTimezone('America/New_York')->startOfDay()->setHour(10);
+        $end = $this->date->copy()->shiftTimezone('America/New_York')->endOfDay();
 
         $periods = [];
 
