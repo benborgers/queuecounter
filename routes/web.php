@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Snapshot;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $latestSnapshot = Snapshot::latest()->first();
+    return "Latest snapshot was “{$latestSnapshot->count}” — {$latestSnapshot->created_at->diffForHumans()}";
 });
