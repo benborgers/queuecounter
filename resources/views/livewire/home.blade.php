@@ -36,7 +36,6 @@
         </div>
 
         <flux:card class="aspect-[2/1] w-full transition-opacity duration-100" wire:loading.class="opacity-50">
-            @json($hasComparison)
             <flux:chart :value="$this->data" wire:key="{{ $date }} {{ $comparisonDate }}" class="w-full h-full">
                 <flux:chart.svg>
                     @if ($hasComparison)
