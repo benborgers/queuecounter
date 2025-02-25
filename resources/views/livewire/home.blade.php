@@ -20,7 +20,12 @@
                         <flux:chart.axis.tick />
                         <flux:chart.axis.line />
                     </flux:chart.axis>
+                    <flux:chart.cursor />
                 </flux:chart.svg>
+
+                <flux:chart.tooltip>
+                    <flux:chart.tooltip.value field="label" />
+                </flux:chart.tooltip>
             </flux:chart>
         </flux:card>
     </div>
