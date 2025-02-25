@@ -47,7 +47,7 @@ class Home extends Component
                 DB::raw('FLOOR(EXTRACT(EPOCH FROM timestamp) / ' . (MINUTES_PER_PERIOD * 60) . ') AS period_key'),
                 DB::raw('MAX(count) AS max_count')
             ])
-            ->whereBetween('timestamp', [$start, $end])
+            ->whereBetween('timestamp', [$start->timezone('UTC'), $end->timezone('UTC')])
             ->groupBy('period_key')
             ->get()
             ->keyBy('period_key');
