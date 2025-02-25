@@ -58,9 +58,9 @@
                         <flux:chart.axis.line />
                     </flux:chart.axis>
 
-                    <flux:chart.axis axis="y" field="count" :tick-values="[0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                    <flux:chart.axis axis="y" field="count" :tick-values="range(0, $this->maxCount)">
                         <flux:chart.axis.tick />
-                        <flux:chart.axis.line />
+                        <flux:chart.axis.grid />
                     </flux:chart.axis>
                     <flux:chart.cursor />
                 </flux:chart.svg>

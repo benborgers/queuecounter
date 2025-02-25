@@ -142,6 +142,12 @@ class Home extends Component
         return $mergedData;
     }
 
+    #[Computed]
+    public function maxCount()
+    {
+        return Snapshot::max('count');
+    }
+
     public function updatedHasComparison()
     {
         if (! $this->hasComparison) {
