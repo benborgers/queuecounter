@@ -8,7 +8,7 @@
             with-today
         />
 
-        <flux:card class="aspect-[2/1] w-full">
+        <flux:card class="aspect-[2/1] w-full transition-opacity duration-100" wire:loading.class="opacity-50">
             <flux:chart :value="$this->data" wire:key="{{ $date }}" class="w-full h-full">
                 <flux:chart.svg>
                     <flux:chart.line field="count" class="text-accent" stroke-width="3" curve="none" />
