@@ -16,7 +16,7 @@ class Home extends Component
 
     public function mount()
     {
-        $this->date = Carbon::now()->subDays(1);
+        $this->date = Carbon::now();
     }
 
     #[Computed]
