@@ -153,12 +153,6 @@ class Home extends Component
         return Snapshot::max('count');
     }
 
-    #[Computed]
-    public function lastCheckedQueue()
-    {
-        return Cache::get('last-checked-queue');
-    }
-
     public function updatedDate()
     {
         if (! isset($this->date)) {

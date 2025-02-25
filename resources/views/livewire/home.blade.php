@@ -1,21 +1,10 @@
 <div class="p-4 pt-5">
-    <div class="flex items-end justify-between">
-        <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
-            How busy is the
-            <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
-                CS 40</a>
-            office hours queue?
-        </h1>
-
-        @if ($this->lastCheckedQueue)
-            <div class="flex items-center gap-2">
-                <div class="relative size-2 rounded-full bg-accent">
-                    <div class="absolute inset-0 rounded-full bg-accent/75 animate-ping"></div>
-                </div>
-                <p class="text-sm font-medium text-gray-600">{{ $this->lastCheckedQueue->timezone('America/New_York')->format('g:i a') }}</p>
-            </div>
-        @endif
-    </div>
+    <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
+        How busy is the
+        <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
+            CS 40</a>
+        office hours queue?
+    </h1>
 
     <div class="mt-4 flex items-start gap-4">
         <div>
