@@ -1,4 +1,4 @@
-<div class="p-4">
+<div class="p-4 pt-5">
     <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950">
         How busy is the
         <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
