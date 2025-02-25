@@ -20,6 +20,33 @@ class Home extends Component
     }
 
     #[Computed]
+    public function designDeadlines()
+    {
+        return collect([
+            '2025-01-23',
+            '2025-02-03',
+            '2025-02-17',
+            '2025-02-26',
+            '2025-04-02',
+        ]);
+    }
+
+    #[Computed]
+    public function homeworkDeadlines()
+    {
+        return collect([
+            '2025-01-29',
+            '2025-02-10',
+            '2025-02-20',
+            '2025-03-06',
+            '2025-03-27',
+            '2025-04-10',
+            '2025-04-21',
+            '2025-04-28',
+        ]);
+    }
+
+    #[Computed]
     public function data()
     {
         if (! isset($this->date)) {
@@ -73,9 +100,9 @@ class Home extends Component
 
         // This fixes the area chart - if the last part of the area chart is up high, it fills diagonally.
         // Instead, add an artificial 0 count.
-        if (!isset(end($points)['count'])) {
+        if (! isset(end($points)['count'])) {
             foreach ($points as $index => $point) {
-                if (!isset($point['count'])) {
+                if (! isset($point['count'])) {
                     // Not sure why 2 extra points are needed, but it seems to work.
                     $points[$index]['count'] = 0;
                     $points[$index + 1]['count'] = 0;
