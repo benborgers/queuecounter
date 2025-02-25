@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Snapshot;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -146,6 +147,12 @@ class Home extends Component
     public function maxCount()
     {
         return Snapshot::max('count');
+    }
+
+    #[Computed]
+    public function lastCheckedQueue()
+    {
+        return Cache::get('last-checked-queue');
     }
 
     public function updatedHasComparison()
