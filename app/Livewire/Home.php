@@ -4,9 +4,9 @@ namespace App\Livewire;
 
 use App\Models\Snapshot;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 
 const MINUTES_PER_PERIOD = 15;
 
@@ -44,9 +44,9 @@ class Home extends Component
 
         // Get max counts for each time period directly from the database
         $snapshots = Snapshot::select([
-                DB::raw('FLOOR(EXTRACT(EPOCH FROM timestamp) / ' . (MINUTES_PER_PERIOD * 60) . ') AS period_key'),
-                DB::raw('MAX(count) AS max_count')
-            ])
+            DB::raw('FLOOR(EXTRACT(EPOCH FROM timestamp) / '.(MINUTES_PER_PERIOD * 60).') AS period_key'),
+            DB::raw('MAX(count) AS max_count'),
+        ])
             ->whereBetween('timestamp', [$start->timezone('UTC'), $end->timezone('UTC')])
             ->groupBy('period_key')
             ->get()
@@ -55,11 +55,20 @@ class Home extends Component
         // Map results to our periods
         $points = [];
         foreach ($periods as $period) {
+            $isFuture = $period['period_start']->isFuture();
+
             $periodKey = floor($period['period_start']->timestamp / (MINUTES_PER_PERIOD * 60));
-            $points[] = [
+
+            $point = [
                 'label' => $period['label'],
                 'count' => isset($snapshots[$periodKey]) ? $snapshots[$periodKey]->max_count : 0,
             ];
+
+            if ($isFuture) {
+                unset($point['count']);
+            }
+
+            $points[] = $point;
         }
 
         return $points;
