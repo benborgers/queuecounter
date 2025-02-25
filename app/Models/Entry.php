@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Snapshot extends Model
+class Entry extends Model
 {
     public $casts = [
         'timestamp' => 'datetime',
