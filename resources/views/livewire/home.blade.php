@@ -1,5 +1,12 @@
 <div class="p-4">
-    <div class="flex items-start gap-4">
+    <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950">
+        How busy is the
+        <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
+            CS 40</a>
+        office hours queue?
+    </h1>
+
+    <div class="mt-4 flex items-start gap-4">
         <div>
             <flux:card class="!p-2 !pb-4">
                 <flux:calendar
