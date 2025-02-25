@@ -11,7 +11,8 @@
         <flux:card class="aspect-[2/1] w-full">
             <flux:chart :value="$this->data" wire:key="{{ $date }}" class="w-full h-full">
                 <flux:chart.svg>
-                    <flux:chart.line field="count" class="text-accent" />
+                    <flux:chart.line field="count" class="text-accent" stroke-width="3" curve="none" />
+                    <flux:chart.area field="count" class="text-accent/10" stroke-width="3" curve="none" />
                     <flux:chart.axis axis="x" field="label" tick-count="10">
                         <flux:chart.axis.tick />
                         <flux:chart.axis.line />
