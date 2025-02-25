@@ -1,5 +1,5 @@
 <div class="p-4 pt-5">
-    <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950">
+    <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
         How busy is the
         <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
             CS 40</a>
@@ -17,8 +17,8 @@
                     with-today
                 />
                 <p class="ml-4 mt-1 text-xs font-medium text-zinc-800 italic *:px-2 *:py-0.5 *:rounded-full">
-                    <span class="bg-sky-100">= Design Due</span>
-                    <span class="ml-1 bg-orange-100">= Homework Due</span>
+                    <span class="bg-sky-100 dark:bg-sky-700 dark:text-white">= Design Due</span>
+                    <span class="ml-1 bg-orange-100 dark:bg-orange-700 dark:text-white">= Homework Due</span>
                 </p>
             </flux:card>
 
@@ -46,8 +46,8 @@
             <flux:chart :value="$this->data" wire:key="{{ $date }} {{ $comparisonDate }}" class="w-full h-full">
                 <flux:chart.svg>
                     @if ($hasComparison)
-                        <flux:chart.line field="comparisonCount" class="text-zinc-300" stroke-width="2" stroke-dasharray="4 4" curve="none" />
-                        <flux:chart.area field="comparisonCount" class="text-zinc-300/10" stroke-width="2" curve="none" />
+                        <flux:chart.line field="comparisonCount" class="text-zinc-300 dark:text-zinc-600" stroke-width="2" stroke-dasharray="4 4" curve="none" />
+                        <flux:chart.area field="comparisonCount" class="text-zinc-300/10 dark:text-zinc-600/10" stroke-width="2" curve="none" />
                     @endif
 
                     <flux:chart.line field="count" class="text-accent" stroke-width="3" curve="none" />
@@ -75,15 +75,23 @@
     <style>
         {!! $this->designDeadlines->map(fn ($ymd) => "
         [data-date=\"{$ymd}\"]:not([disabled]) {
-            background-color: var(--color-sky-100); /* text-sky-100 */
+            background-color: var(--color-sky-100);
             border-radius: 100%;
+        }
+
+        .dark [data-date=\"{$ymd}\"]:not([disabled]) {
+            background-color: var(--color-sky-700);
         }
         ")->join("\n") !!}
 
         {!! $this->homeworkDeadlines->map(fn ($ymd) => "
         [data-date=\"{$ymd}\"]:not([disabled]) {
-            background-color: var(--color-orange-100); /* text-orange-100 */
+            background-color: var(--color-orange-100);
             border-radius: 100%;
+        }
+
+        .dark [data-date=\"{$ymd}\"]:not([disabled]) {
+            background-color: var(--color-orange-700);
         }
         ")->join("\n") !!}
     </style>
