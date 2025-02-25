@@ -6,6 +6,7 @@ use App\Models\Snapshot;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 const MINUTES_PER_PERIOD = 5;
 
@@ -24,23 +25,37 @@ class Home extends Component
         $start = $this->date->copy()->timezone('America/New_York')->startOfDay();
         $end = $this->date->copy()->timezone('America/New_York')->endOfDay();
 
-        $snapshots = Snapshot::whereBetween('timestamp', [$start, $end])->get();
-
-        $points = [];
+        $periods = [];
 
         $cursor = $start->copy();
 
         while ($cursor->lessThanOrEqualTo($end)) {
-            $relevantSnapshots = $snapshots
-                ->where('timestamp', '>=', $cursor)
-                ->where('timestamp', '<=', $cursor->copy()->addMinutes(MINUTES_PER_PERIOD));
-
-            $points[] = [
+            $periods[] = [
+                'period_start' => $cursor->copy(),
+                'period_end' => $cursor->copy()->addMinutes(MINUTES_PER_PERIOD),
                 'label' => $cursor->format('g:i a'),
-                'count' => $relevantSnapshots->max('count') ?? 0,
             ];
-
             $cursor->addMinutes(MINUTES_PER_PERIOD);
+        }
+
+        // Get max counts for each time period directly from the database
+        $snapshots = Snapshot::select([
+                DB::raw('FLOOR(EXTRACT(EPOCH FROM timestamp) / ' . (MINUTES_PER_PERIOD * 60) . ') AS period_key'),
+                DB::raw('MAX(count) AS max_count')
+            ])
+            ->whereBetween('timestamp', [$start, $end])
+            ->groupBy('period_key')
+            ->get()
+            ->keyBy('period_key');
+
+        // Map results to our periods
+        $points = [];
+        foreach ($periods as $period) {
+            $periodKey = floor($period['period_start']->timestamp / (MINUTES_PER_PERIOD * 60));
+            $points[] = [
+                'label' => $period['label'],
+                'count' => isset($snapshots[$periodKey]) ? $snapshots[$periodKey]->max_count : 0,
+            ];
         }
 
         return $points;
