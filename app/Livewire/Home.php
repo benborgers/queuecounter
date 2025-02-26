@@ -122,6 +122,16 @@ class Home extends Component
             $points[] = $point;
         }
 
+        // Hacky fix for last point not showing on in-progress (today) graphs.
+        if (! isset(end($points)['count'])) {
+            foreach ($points as $index => $point) {
+                if (! isset($point['count'])) {
+                    $points[$index]['count'] = 0;
+                    break;
+                }
+            }
+        }
+
         return $points;
     }
 
@@ -174,6 +184,16 @@ class Home extends Component
             }
 
             $points[] = $point;
+        }
+
+        // Hacky fix for last point not showing on in-progress (today) graphs.
+        if (! isset(end($points)['count'])) {
+            foreach ($points as $index => $point) {
+                if (! isset($point['count'])) {
+                    $points[$index]['count'] = 0;
+                    break;
+                }
+            }
         }
 
         return $points;
