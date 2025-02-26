@@ -74,13 +74,7 @@
                         <flux:chart.axis.tick />
                         <flux:chart.axis.grid />
                     </flux:chart.axis>
-                    <flux:chart.cursor />
                 </flux:chart.svg>
-
-                <flux:chart.tooltip>
-                    <flux:chart.tooltip.heading field="count" />
-                    <flux:chart.tooltip.value field="label" />
-                </flux:chart.tooltip>
             </flux:chart>
         </flux:card>
     </div>
