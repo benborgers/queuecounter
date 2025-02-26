@@ -59,11 +59,9 @@
                 <flux:chart.svg>
                     @if ($hasComparison)
                         <flux:chart.line field="comparisonCount" class="text-zinc-300 dark:text-zinc-600" stroke-width="2" stroke-dasharray="4 4" curve="none" />
-                        <flux:chart.area field="comparisonCount" class="text-zinc-300/10 dark:text-zinc-600/10" stroke-width="2" curve="none" />
                     @endif
 
                     <flux:chart.line field="count" class="text-accent" stroke-width="3" curve="none" />
-                    <flux:chart.area field="count" class="text-accent/10" stroke-width="3" curve="none" />
 
                     <flux:chart.axis axis="x" field="label" tick-count="10">
                         <flux:chart.axis.tick />

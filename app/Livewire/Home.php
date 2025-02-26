@@ -122,19 +122,6 @@ class Home extends Component
             $points[] = $point;
         }
 
-        // This fixes the area chart - if the last part of the area chart is up high, it fills diagonally.
-        // Instead, add an artificial 0 count.
-        if (! isset(end($points)['count'])) {
-            foreach ($points as $index => $point) {
-                if (! isset($point['count'])) {
-                    // Not sure why 2 extra points are needed, but it seems to work.
-                    $points[$index]['count'] = 0;
-                    $points[$index + 1]['count'] = 0;
-                    break; // Only add count to the first missing period
-                }
-            }
-        }
-
         return $points;
     }
 
@@ -187,19 +174,6 @@ class Home extends Component
             }
 
             $points[] = $point;
-        }
-
-        // This fixes the area chart - if the last part of the area chart is up high, it fills diagonally.
-        // Instead, add an artificial 0 count.
-        if (! isset(end($points)['count'])) {
-            foreach ($points as $index => $point) {
-                if (! isset($point['count'])) {
-                    // Not sure why 2 extra points are needed, but it seems to work.
-                    $points[$index]['count'] = 0;
-                    $points[$index + 1]['count'] = 0;
-                    break; // Only add count to the first missing period
-                }
-            }
         }
 
         return $points;
