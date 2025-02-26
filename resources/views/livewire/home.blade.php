@@ -78,6 +78,7 @@
                 </flux:chart.svg>
 
                 <flux:chart.tooltip>
+                    <flux:chart.tooltip.heading field="count" />
                     <flux:chart.tooltip.value field="label" />
                 </flux:chart.tooltip>
             </flux:chart>
