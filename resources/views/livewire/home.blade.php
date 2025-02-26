@@ -45,6 +45,7 @@
                         min="{{ $this->calendarMinDate->format('Y-m-d') }}"
                         max="today"
                         with-today
+                        wire:key="{{ $mode }}"
                     />
                 </flux:card>
             @endif
