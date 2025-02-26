@@ -74,7 +74,22 @@
                         <flux:chart.axis.tick />
                         <flux:chart.axis.grid />
                     </flux:chart.axis>
+                    <flux:chart.cursor />
                 </flux:chart.svg>
+
+                <flux:chart.tooltip>
+                    <flux:chart.tooltip.heading field="label" />
+                    <flux:chart.tooltip.value
+                        field="count"
+                        label="{{ $mode === 'entry' ? 'Times people joined queue' : 'Queue length' }}"
+                    />
+                    @if ($hasComparison)
+                        <flux:chart.tooltip.value
+                            field="comparisonCount"
+                            label="{{ $mode === 'entry' ? 'Times people joined queue' : 'Queue length' }} (comparison)"
+                        />
+                    @endif
+                </flux:chart.tooltip>
             </flux:chart>
         </flux:card>
     </div>
