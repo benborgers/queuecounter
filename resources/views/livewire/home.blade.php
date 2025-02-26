@@ -1,10 +1,17 @@
 <div class="p-4 pt-5">
-    <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
-        How busy is the
-        <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
-            CS 40</a>
-        office hours queue?
-    </h1>
+    <div class="flex items-end justify-between">
+        <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
+            How busy is the
+            <a href="https://www.cs.tufts.edu/cs/40" target="_blank" class="underline decoration-zinc-300">
+                CS 40</a>
+            office hours queue?
+        </h1>
+
+        <flux:radio.group wire:model.live="mode" variant="segmented" size="sm">
+            <flux:radio value="entry" label="Total Queue Joins" />
+            <flux:radio value="snapshot" label="Max Queue Length" />
+        </flux:radio.group>
+    </div>
 
     <div class="mt-4 flex items-start gap-4">
         <div>
@@ -12,9 +19,10 @@
                 <flux:calendar
                     wire:model.live="date"
                     size="sm"
-                    min="2025-02-01"
+                    min="{{ $this->calendarMinDate->format('Y-m-d') }}"
                     max="today"
                     with-today
+                    wire:key="{{ $mode }}"
                 />
                 <p class="ml-4 mt-1 text-xs font-medium text-zinc-800 italic *:px-2 *:py-0.5 *:rounded-full">
                     <span class="bg-sky-100 dark:bg-sky-700 dark:text-white">= Design Due</span>
@@ -34,7 +42,7 @@
                     <flux:calendar
                         wire:model.live="comparisonDate"
                         size="sm"
-                        min="2025-02-01"
+                        min="{{ $this->calendarMinDate->format('Y-m-d') }}"
                         max="today"
                         with-today
                     />
@@ -43,7 +51,11 @@
         </div>
 
         <flux:card class="aspect-[2/1] w-full transition-opacity duration-200" wire:loading.class="opacity-50">
-            <flux:chart :value="$this->data" wire:key="{{ $date }} {{ $comparisonDate }}" class="w-full h-full">
+            <flux:chart
+                :value="$this->data"
+                wire:key="{{ $mode }}{{ $date }} {{ $comparisonDate }}"
+                class="w-full h-full"
+            >
                 <flux:chart.svg>
                     @if ($hasComparison)
                         <flux:chart.line field="comparisonCount" class="text-zinc-300 dark:text-zinc-600" stroke-width="2" stroke-dasharray="4 4" curve="none" />
