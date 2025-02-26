@@ -6,4 +6,5 @@ use Illuminate\Support\Facades\Schedule;
 Schedule::command(CheckQueue::class)
     ->everySecond()
     ->between('9:00', '23:59')
+    ->timezone('America/New_York')
     ->runInBackground();
