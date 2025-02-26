@@ -242,7 +242,7 @@ class Home extends Component
     public function maxCount()
     {
         if ($this->mode === 'entry') {
-            return Entry::select(DB::raw('COUNT(id) as count'))
+            return Entry::select(DB::raw('COUNT(*) as count'))
                 ->groupBy(DB::raw('FLOOR(EXTRACT(EPOCH FROM timestamp) / '.(ENTRY_MINUTES_PER_PERIOD * 60).')'))
                 ->orderBy('count', 'desc')
                 ->value('count') ?? 0;
