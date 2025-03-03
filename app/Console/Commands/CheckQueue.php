@@ -14,9 +14,7 @@ class CheckQueue extends Command
 
     public function handle()
     {
-        $json = Http::timeout(0.5)
-            ->get(env('QUEUE_ENDPOINT'))
-            ->json();
+        $json = Http::timeout(0.5)->get(env('QUEUE_ENDPOINT'))->json();
 
         $count = count($json);
 
@@ -29,7 +27,9 @@ class CheckQueue extends Command
 
         foreach ($json as $entry) {
             Entry::firstOrCreate([
-                'hash' => md5("{$entry['cslogin']}-{$entry['meetingid']}-{$entry['time']}"),
+                'hash' => md5(
+                    "{$entry['cslogin']}-{$entry['meetingid']}-{$entry['time']}"
+                ),
                 'timestamp' => Carbon::createFromTimestamp($entry['time']),
             ]);
         }
