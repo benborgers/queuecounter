@@ -8,10 +8,10 @@
         </h1>
 
         <div class="flex gap-4 items-center">
-            {{-- <a href="/heatmap" class="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
+            <a href="/heatmap" class="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
                 <flux:icon.squares-2x2 variant="micro" />
-                View Heatmap
-            </a> --}}
+                Heatmap
+            </a>
 
             <flux:radio.group wire:model.live="mode" variant="segmented" size="sm">
                 <flux:radio value="entry" label="Total Queue Joins" />
