@@ -15,27 +15,52 @@ class Heatmap extends Component
     private $endHour = 23;
 
     #[Computed]
-    public function fifteenMinuteData()
+    public function weekdayFifteenMinuteData()
     {
-        return $this->getEntryFifteenMinuteData();
+        return $this->getEntryFifteenMinuteData('weekday');
     }
 
-    private function getEntryFifteenMinuteData()
+    #[Computed]
+    public function saturdayFifteenMinuteData()
     {
-        // Group entries by hour and 15-minute interval
-        $intervalData = Entry::select([
+        return $this->getEntryFifteenMinuteData('saturday');
+    }
+
+    #[Computed]
+    public function sundayFifteenMinuteData()
+    {
+        return $this->getEntryFifteenMinuteData('sunday');
+    }
+
+    private function getEntryFifteenMinuteData($dayType)
+    {
+        $query = Entry::select([
             DB::raw('EXTRACT(HOUR FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') AS hour'),
             DB::raw('FLOOR(EXTRACT(MINUTE FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') / 15) AS quarter_hour'),
             DB::raw('COUNT(*) as count')
         ])
             ->whereRaw('EXTRACT(HOUR FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') BETWEEN ? AND ?',
-                [$this->startHour, $this->endHour])
-            ->groupBy('hour', 'quarter_hour')
+                [$this->startHour, $this->endHour]);
+
+        // Add day type filter
+        switch ($dayType) {
+            case 'weekday':
+                $query->whereRaw('EXTRACT(DOW FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') BETWEEN 1 AND 5');
+                break;
+            case 'saturday':
+                $query->whereRaw('EXTRACT(DOW FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') = 6');
+                break;
+            case 'sunday':
+                $query->whereRaw('EXTRACT(DOW FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') = 0');
+                break;
+        }
+
+        $intervalData = $query->groupBy('hour', 'quarter_hour')
             ->orderBy('hour')
             ->orderBy('quarter_hour')
             ->get();
 
-        Log::info('Interval data: ' . json_encode($intervalData, JSON_PRETTY_PRINT));
+        Log::info("Interval data for {$dayType}: " . json_encode($intervalData, JSON_PRETTY_PRINT));
 
         return $this->formatFifteenMinuteData($intervalData);
     }
