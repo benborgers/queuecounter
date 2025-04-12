@@ -3,7 +3,7 @@
         <h1 class="ml-0.5 text-xl font-bold tracking-tight text-zinc-950 dark:text-white">
             Queue Heatmap
             <span class="text-sm font-normal italic ml-2 text-zinc-500">
-                (aggregated by day type)
+                (across all semester)
             </span>
         </h1>
 
