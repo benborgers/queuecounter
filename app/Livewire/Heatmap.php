@@ -36,7 +36,7 @@ class Heatmap extends Component
     {
         $query = Entry::select([
             DB::raw('EXTRACT(HOUR FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') AS hour'),
-            DB::raw('FLOOR(EXTRACT(MINUTE FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') / 15) AS quarter_hour'),
+            DB::raw('FLOOR(EXTRACT(MINUTE FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') / 30) AS half_hour'),
             DB::raw('COUNT(*) as count')
         ])
             ->whereRaw('EXTRACT(HOUR FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') BETWEEN ? AND ?',
@@ -55,9 +55,9 @@ class Heatmap extends Component
                 break;
         }
 
-        $intervalData = $query->groupBy('hour', 'quarter_hour')
+        $intervalData = $query->groupBy('hour', 'half_hour')
             ->orderBy('hour')
-            ->orderBy('quarter_hour')
+            ->orderBy('half_hour')
             ->get();
 
         Log::info("Interval data for {$dayType}: " . json_encode($intervalData, JSON_PRETTY_PRINT));
@@ -70,28 +70,28 @@ class Heatmap extends Component
         // Create a map to easily look up data
         $dataMap = [];
         foreach ($intervalData as $interval) {
-            $key = $interval->hour . '_' . $interval->quarter_hour;
+            $key = $interval->hour . '_' . $interval->half_hour;
             $dataMap[$key] = $interval->count;
         }
 
-        // Create array with all 15-minute intervals for the filtered hours
+        // Create array with all 30-minute intervals for the filtered hours
         $data = [];
         for ($hour = $this->startHour; $hour <= $this->endHour; $hour++) {
-            for ($quarter = 0; $quarter < 4; $quarter++) {
+            for ($half = 0; $half < 2; $half++) {
                 $formattedHour = $hour % 12 == 0 ? 12 : $hour % 12;
                 $amPm = $hour < 12 ? 'am' : 'pm';
-                $key = $hour . '_' . $quarter;
+                $key = $hour . '_' . $half;
 
                 // Only add hour label for the first interval of each hour
-                $label = $quarter == 0 ? $formattedHour . $amPm : '';
+                $label = $half == 0 ? $formattedHour . $amPm : '';
 
                 $data[] = [
                     'hour' => $hour,
-                    'quarter' => $quarter,
-                    'interval_key' => ($hour - $this->startHour) * 4 + $quarter, // 0-based index for the day's slice
+                    'half' => $half,
+                    'interval_key' => ($hour - $this->startHour) * 2 + $half, // 0-based index for the day's slice
                     'label' => $label,
                     'count' => $dataMap[$key] ?? 0,
-                    'has_label' => $quarter == 0,
+                    'has_label' => $half == 0,
                 ];
             }
         }
@@ -107,7 +107,7 @@ class Heatmap extends Component
                 [$this->startHour, $this->endHour])
             ->groupBy([
                 DB::raw('EXTRACT(HOUR FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\')'),
-                DB::raw('FLOOR(EXTRACT(MINUTE FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') / 15)')
+                DB::raw('FLOOR(EXTRACT(MINUTE FROM timestamp AT TIME ZONE \'UTC\' AT TIME ZONE \'America/New_York\') / 30)')
             ])
             ->orderBy('count', 'desc')
             ->value('count') ?? 0;
@@ -116,8 +116,8 @@ class Heatmap extends Component
     #[Computed]
     public function intervalCount()
     {
-        // Calculate total number of 15-minute intervals in our range
-        return ($this->endHour - $this->startHour + 1) * 4;
+        // Calculate total number of 30-minute intervals in our range
+        return ($this->endHour - $this->startHour + 1) * 2;
     }
 
     public function render()

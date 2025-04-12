@@ -34,7 +34,7 @@
                         @foreach($intervalDataWithIntensity as $interval)
                             @php
                                 $hour = $interval['hour'];
-                                $minute = $interval['quarter'] * 15;
+                                $minute = $interval['half'] * 30;
                                 $period = $hour < 12 ? 'am' : 'pm';
                                 $displayHour = $hour % 12 == 0 ? 12 : $hour % 12;
                                 $timeString = sprintf('%d:%02d%s', $displayHour, $minute, $period);
@@ -42,7 +42,7 @@
                             <div
                                 class="heatmap-cell relative group aspect-square"
                                 data-hour="{{ $interval['hour'] }}"
-                                data-quarter="{{ $interval['quarter'] }}"
+                                data-half="{{ $interval['half'] }}"
                             >
                                 <div class="absolute inset-0 bg-accent opacity-0 group-hover:opacity-10 rounded"></div>
                                 <div
@@ -62,7 +62,7 @@
                     <div class="mt-1 grid" style="grid-template-columns: repeat({{ $intervalCount }}, minmax(0, 1fr));">
                         @foreach($intervalDataWithIntensity as $interval)
                             @if($interval['has_label'])
-                                <div class="relative" style="grid-column: span 4;">
+                                <div class="relative" style="grid-column: span 2;">
                                     <div class="absolute top-0 left-0 transform -rotate-45 origin-top-left text-[10px] text-zinc-500 whitespace-nowrap">
                                         {{ $interval['label'] }}
                                     </div>
@@ -90,7 +90,7 @@
                         @foreach($intervalDataWithIntensity as $interval)
                             @php
                                 $hour = $interval['hour'];
-                                $minute = $interval['quarter'] * 15;
+                                $minute = $interval['half'] * 30;
                                 $period = $hour < 12 ? 'am' : 'pm';
                                 $displayHour = $hour % 12 == 0 ? 12 : $hour % 12;
                                 $timeString = sprintf('%d:%02d%s', $displayHour, $minute, $period);
@@ -98,7 +98,7 @@
                             <div
                                 class="heatmap-cell relative group aspect-square"
                                 data-hour="{{ $interval['hour'] }}"
-                                data-quarter="{{ $interval['quarter'] }}"
+                                data-half="{{ $interval['half'] }}"
                             >
                                 <div class="absolute inset-0 bg-accent opacity-0 group-hover:opacity-10 rounded"></div>
                                 <div
@@ -118,7 +118,7 @@
                     <div class="mt-1 grid" style="grid-template-columns: repeat({{ $intervalCount }}, minmax(0, 1fr));">
                         @foreach($intervalDataWithIntensity as $interval)
                             @if($interval['has_label'])
-                                <div class="relative" style="grid-column: span 4;">
+                                <div class="relative" style="grid-column: span 2;">
                                     <div class="absolute top-0 left-0 transform -rotate-45 origin-top-left text-[10px] text-zinc-500 whitespace-nowrap">
                                         {{ $interval['label'] }}
                                     </div>
@@ -146,7 +146,7 @@
                         @foreach($intervalDataWithIntensity as $interval)
                             @php
                                 $hour = $interval['hour'];
-                                $minute = $interval['quarter'] * 15;
+                                $minute = $interval['half'] * 30;
                                 $period = $hour < 12 ? 'am' : 'pm';
                                 $displayHour = $hour % 12 == 0 ? 12 : $hour % 12;
                                 $timeString = sprintf('%d:%02d%s', $displayHour, $minute, $period);
@@ -154,7 +154,7 @@
                             <div
                                 class="heatmap-cell relative group aspect-square"
                                 data-hour="{{ $interval['hour'] }}"
-                                data-quarter="{{ $interval['quarter'] }}"
+                                data-half="{{ $interval['half'] }}"
                             >
                                 <div class="absolute inset-0 bg-accent opacity-0 group-hover:opacity-10 rounded"></div>
                                 <div
@@ -174,7 +174,7 @@
                     <div class="mt-1 grid" style="grid-template-columns: repeat({{ $intervalCount }}, minmax(0, 1fr));">
                         @foreach($intervalDataWithIntensity as $interval)
                             @if($interval['has_label'])
-                                <div class="relative" style="grid-column: span 4;">
+                                <div class="relative" style="grid-column: span 2;">
                                     <div class="absolute top-0 left-0 transform -rotate-45 origin-top-left text-[10px] text-zinc-500 whitespace-nowrap">
                                         {{ $interval['label'] }}
                                     </div>
