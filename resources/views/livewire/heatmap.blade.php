@@ -63,7 +63,7 @@
                         @foreach($intervalDataWithIntensity as $interval)
                             @if($interval['has_label'])
                                 <div class="relative" style="grid-column: span 2;">
-                                    <div class="absolute top-0 left-0 transform -rotate-45 origin-top-left text-[10px] text-zinc-500 whitespace-nowrap">
+                                    <div class="absolute -top-1 left-0 text-[10px] text-zinc-500 whitespace-nowrap pl-0.5">
                                         {{ $interval['label'] }}
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                         @foreach($intervalDataWithIntensity as $interval)
                             @if($interval['has_label'])
                                 <div class="relative" style="grid-column: span 2;">
-                                    <div class="absolute top-0 left-0 transform -rotate-45 origin-top-left text-[10px] text-zinc-500 whitespace-nowrap">
+                                    <div class="absolute -top-1 left-0 text-[10px] text-zinc-500 whitespace-nowrap pl-0.5">
                                         {{ $interval['label'] }}
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@
                         @foreach($intervalDataWithIntensity as $interval)
                             @if($interval['has_label'])
                                 <div class="relative" style="grid-column: span 2;">
-                                    <div class="absolute top-0 left-0 transform -rotate-45 origin-top-left text-[10px] text-zinc-500 whitespace-nowrap">
+                                    <div class="absolute -top-1 left-0 text-[10px] text-zinc-500 whitespace-nowrap pl-0.5">
                                         {{ $interval['label'] }}
                                     </div>
                                 </div>
