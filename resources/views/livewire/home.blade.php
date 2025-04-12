@@ -7,10 +7,17 @@
             office hours queue?
         </h1>
 
-        <flux:radio.group wire:model.live="mode" variant="segmented" size="sm">
-            <flux:radio value="entry" label="Total Queue Joins" />
-            <flux:radio value="snapshot" label="Max Queue Length" />
-        </flux:radio.group>
+        <div class="flex gap-4 items-center">
+            {{-- <a href="/heatmap" class="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
+                <flux:icon.squares-2x2 variant="micro" />
+                View Heatmap
+            </a> --}}
+
+            <flux:radio.group wire:model.live="mode" variant="segmented" size="sm">
+                <flux:radio value="entry" label="Total Queue Joins" />
+                <flux:radio value="snapshot" label="Max Queue Length" />
+            </flux:radio.group>
+        </div>
     </div>
 
     <div class="mt-4 flex items-start gap-4">
