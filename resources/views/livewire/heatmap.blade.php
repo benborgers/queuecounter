@@ -10,7 +10,7 @@
         <div class="flex gap-4">
             <a href="/" class="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
                 <flux:icon.arrow-left class="h-4 w-4" />
-                Back to Daily View
+                Back to daily graphs
             </a>
         </div>
     </div>
