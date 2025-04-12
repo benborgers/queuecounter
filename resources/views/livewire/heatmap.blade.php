@@ -17,15 +17,6 @@
 
     <div class="mt-6">
         <flux:card class="transition-opacity duration-200" wire:loading.class="opacity-50">
-            <div class="pb-4">
-                <h2 class="text-lg font-medium text-zinc-900 dark:text-white">
-                    Hourly Distribution (10am - 11pm)
-                </h2>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                    Shows when students join the queue most frequently throughout the day.
-                </p>
-            </div>
-
             <div class="heatmap-container">
                 @php
                     $maxValue = $this->maxCount;
@@ -52,7 +43,6 @@
                                 class="heatmap-cell relative group aspect-square"
                                 data-hour="{{ $interval['hour'] }}"
                                 data-quarter="{{ $interval['quarter'] }}"
-                                title="{{ $interval['count'] }} joins at {{ $timeString }}"
                             >
                                 <div class="absolute inset-0 bg-accent opacity-0 group-hover:opacity-10 rounded"></div>
                                 <div
